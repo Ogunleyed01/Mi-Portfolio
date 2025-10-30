@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from '../components/header'
 import headshot from '../images/headshot.png'
 import abstractbg1 from '../images/purple-design-background.png'
@@ -6,12 +6,27 @@ import abstractbg2 from '../images/abstract2.jpg'
 
 const Landing = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  // Prevent scrolling when menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    
+    // Cleanup function to restore scrolling when component unmounts
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isMenuOpen])
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: ''
   })
   const [emailError, setEmailError] = useState('')
+  const [submitSuccess, setSubmitSuccess] = useState(false)
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -47,10 +62,31 @@ const Landing = () => {
       `Message:\n${formData.message}`
     )
     
-    window.location.href = `mailto:ogunleyedavid28@gmail.com?subject=${subject}&body=${body}`
-    
-    setFormData({ name: '', email: '', message: '' })
+    // Show success message
+    setSubmitSuccess(true)
     setEmailError('')
+    
+    // Reset form
+    setFormData({ name: '', email: '', message: '' })
+    
+    // Create mailto link and copy to clipboard, then show message
+    const mailtoLink = `mailto:ogunleyedavid28@gmail.com?subject=${subject}&body=${body}`
+    
+    // Try to open email client in background
+    try {
+      const link = document.createElement('a')
+      link.href = mailtoLink
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    } catch (error) {
+      console.log('Could not open email client:', error)
+    }
+    
+    // Hide success message after 5 seconds
+    setTimeout(() => {
+      setSubmitSuccess(false)
+    }, 5000)
   }
 
   return (
@@ -79,22 +115,22 @@ const Landing = () => {
         >
             <div className='absolute inset-0 bg-amber-100/70'></div>
             <div className='relative z-10 rounded-2xl p-3 edave-border flex'>
-                <div className='absolute left-2 top-0 bottom-0 flex items-center'>
+                {/* <div className='absolute left-2 top-0 bottom-0 flex items-center'>
                     <div className='vertical-text text-fuchsia-900 font-medium text-xs'>E-DAVE E-DAVE E-DAVE E-DAVE</div>
-                </div>
+                </div> */}
                 <img src={headshot} alt="edave" className='w-55 rounded-xl mx-auto'/>
-                <div className='absolute right-2 top-0 bottom-0 flex items-center'>
+                {/* <div className='absolute right-2 top-0 bottom-0 flex items-center'>
                     <div className='vertical-text-reverse text-fuchsia-900 font-medium text-xs'>E-DAVE E-DAVE E-DAVE E-DAVE</div>
-                </div>
+                </div> */}
             </div>
         </section>
-        <section className='flex flex-col justify-center h-[66vh] bg-gray-100 p-12'>
+        <section className='flex flex-col justify-center h-[66vh] bg-gray-100 p-12 pb-16'>
             <h2 className='text-fuchsia-900 text-4xl font-extrabold mb-2'>Design</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur voluptate quaerat, corporis unde ipsam ducimus odio magni, quisquam totam quis vitae neque mollitia facilis. Distinctio veritatis quo doloribus. Totam, quod.</p>
             <h2 className='text-fuchsia-900 text-4xl font-extrabold mt-10 mb-2'>Engineering</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur voluptate quaerat, corporis unde ipsam ducimus odio magni, quisquam totam quis vitae neque mollitia facilis. Distinctio veritatis quo doloribus. Totam, quod.</p>
         </section>
-        <section className='bg-fuchsia-900 h-[46vh] p-5 pt-12'>
+        <section className='bg-fuchsia-900 h-[46vh] p-5 pt-12 pb-16'>
             <div className='bg-fuchsia-100 h-[20rem] p-12'>
                 <h2 className='text-fuchsia-900 text-3xl font-extrabold'>
                     I Design <br />
@@ -110,10 +146,16 @@ const Landing = () => {
                 </a>
             </div>
         </section>
-        <section>
+        <section className='pb-16'>
             <div className='p-12'>
                 <h3 className='text-fuchsia-900 text-3xl font-extrabold mb-7'>Send me a message</h3>
                 <p>Got a question, a gig, or just want to say hi? Contact me.</p>
+
+                {submitSuccess && (
+                  <div className='mt-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded'>
+                    <p className='font-semibold'>Message sent successfully! Your email client should open shortly.</p>
+                  </div>
+                )}
 
                 <form onSubmit={handleSubmit} className='m-2 mt-10 flex flex-col gap-4'> 
                     <label htmlFor="name">Your Name</label>

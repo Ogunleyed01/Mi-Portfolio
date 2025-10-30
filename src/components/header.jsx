@@ -25,21 +25,21 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
             className='fixed inset-0 bg-black/50 z-40' 
             onClick={closeMenu}
           ></div>
-          <div className='absolute top-0 right-0 w-64 h-full bg-fuchsia-900/95 backdrop-blur-sm text-white shadow-2xl z-50'>
-            <div className='p-8 border-b border-amber-200/20'>
+          <div className='absolute top-0 right-0 w-64 h-full bg-fuchsia-100 shadow-2xl z-50'>
+            <div className='p-8 border-b-2 border-fuchsia-900/30'>
               <div className='flex justify-between items-center'>
-                <div className='text-xl font-bold text-amber-200'>Menu</div>
+                <div className='text-2xl font-extrabold text-fuchsia-900'>Menu</div>
                 <i 
-                  className='bx bx-x text-3xl cursor-pointer text-amber-200 hover:text-white transition-colors' 
+                  className='bx bx-x text-3xl cursor-pointer text-fuchsia-900 hover:text-fuchsia-700 transition-colors' 
                   onClick={closeMenu}
                 ></i>
               </div>
             </div>
-            <div className='flex flex-col gap-1 p-4 mt-4'>
-              <a href='#home' onClick={closeMenu} className='px-4 py-3 text-amber-200 hover:text-white hover:bg-amber-200/10 transition-all rounded-lg'>Home</a>
-              <a href='#about' onClick={closeMenu} className='px-4 py-3 text-amber-200 hover:text-white hover:bg-amber-200/10 transition-all rounded-lg'>About</a>
-              <a href='#work' onClick={closeMenu} className='px-4 py-3 text-amber-200 hover:text-white hover:bg-amber-200/10 transition-all rounded-lg'>Work</a>
-              <a href='#contact' onClick={closeMenu} className='px-4 py-3 text-amber-200 hover:text-white hover:bg-amber-200/10 transition-all rounded-lg'>Contact</a>
+            <div className='flex flex-col gap-2 p-4 mt-4'>
+              <a href='#home' onClick={closeMenu} className='px-4 py-3 text-lg font-semibold text-white hover:text-white hover:bg-fuchsia-800 transition-all rounded-lg border border-fuchsia-200'>Home</a>
+              <a href='#about' onClick={closeMenu} className='px-4 py-3 text-lg font-semibold text-white hover:text-white hover:bg-fuchsia-800 transition-all rounded-lg border border-fuchsia-200'>About</a>
+              <a href='#work' onClick={closeMenu} className='px-4 py-3 text-lg font-semibold text-white hover:text-white hover:bg-fuchsia-800 transition-all rounded-lg border border-fuchsia-200'>Work</a>
+              <a href='#contact' onClick={closeMenu} className='px-4 py-3 text-lg font-semibold text-white hover:text-white hover:bg-fuchsia-800 transition-all rounded-lg border border-fuchsia-200'>Contact</a>
             </div>
           </div>
         </>
