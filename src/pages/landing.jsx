@@ -1,13 +1,66 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from '../components/header'
 import headshot from '../images/headshot.png'
+import abstractbg1 from '../images/purple-design-background.png'
+import abstractbg2 from '../images/abstract2.jpg'
 
 const Landing = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  })
+  const [emailError, setEmailError] = useState('')
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
+  }
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+    
+    if (name === 'email' && value && !validateEmail(value)) {
+      setEmailError('Please enter a valid email address')
+    } else {
+      setEmailError('')
+    }
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    
+    if (!validateEmail(formData.email)) {
+      setEmailError('Please enter a valid email address')
+      return
+    }
+
+    const subject = encodeURIComponent(`Message from ${formData.name}`)
+    const body = encodeURIComponent(
+      `Name: ${formData.name}\n\n` +
+      `Email: ${formData.email}\n\n` +
+      `Message:\n${formData.message}`
+    )
+    
+    window.location.href = `mailto:ogunleyedavid28@gmail.com?subject=${subject}&body=${body}`
+    
+    setFormData({ name: '', email: '', message: '' })
+    setEmailError('')
+  }
+
   return (
     <div>
-        <div className='bg-fuchsia-900 h-[50vh]'>
-            <Header />
-            <div className='p-11'>
+        <section className='bg-fuchsia-900 bg-no-repeat bg-cover bg-center h-[50vh] relative' style={{backgroundImage: `url(${abstractbg1})`}}>
+            <div className='absolute inset-0 bg-fuchsia-900/60'></div>
+            <div className='relative z-20'>
+                <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+            </div>
+            <div className='p-11 relative z-10'>
                 <h2 className='text-amber-200 text-4xl font-extrabold'>
                     Frontend Developer.
                 </h2>
@@ -19,17 +72,29 @@ const Landing = () => {
                     Beyond coding, I bring UI/UX design principles and graphic design skills to craft interfaces that are not only functional but also aesthetically appealing
                 </p>
             </div>
-        </div>
-        <div className='h-[50vh] bg-amber-100 flex items-center justify-center'>
-            <img src={headshot} alt="edave" className='w-55'/>
-        </div>
-        <div className=' flex flex-col justify-center h-[66vh] bg-gray-100 p-12'>
+        </section>
+        <section 
+            className='h-[50vh] bg-amber-100 bg-cover bg-center flex items-center justify-center relative'
+            style={{backgroundImage: `url(${abstractbg2})`}}
+        >
+            <div className='absolute inset-0 bg-amber-100/70'></div>
+            <div className='relative z-10 rounded-2xl p-3 edave-border flex'>
+                <div className='absolute left-2 top-0 bottom-0 flex items-center'>
+                    <div className='vertical-text text-fuchsia-900 font-medium text-xs'>E-DAVE E-DAVE E-DAVE E-DAVE</div>
+                </div>
+                <img src={headshot} alt="edave" className='w-55 rounded-xl mx-auto'/>
+                <div className='absolute right-2 top-0 bottom-0 flex items-center'>
+                    <div className='vertical-text-reverse text-fuchsia-900 font-medium text-xs'>E-DAVE E-DAVE E-DAVE E-DAVE</div>
+                </div>
+            </div>
+        </section>
+        <section className='flex flex-col justify-center h-[66vh] bg-gray-100 p-12'>
             <h2 className='text-fuchsia-900 text-4xl font-extrabold mb-2'>Design</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur voluptate quaerat, corporis unde ipsam ducimus odio magni, quisquam totam quis vitae neque mollitia facilis. Distinctio veritatis quo doloribus. Totam, quod.</p>
             <h2 className='text-fuchsia-900 text-4xl font-extrabold mt-10 mb-2'>Engineering</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur voluptate quaerat, corporis unde ipsam ducimus odio magni, quisquam totam quis vitae neque mollitia facilis. Distinctio veritatis quo doloribus. Totam, quod.</p>
-        </div>
-        <div className='bg-fuchsia-900 h-[46vh] p-5 pt-12'>
+        </section>
+        <section className='bg-fuchsia-900 h-[46vh] p-5 pt-12'>
             <div className='bg-fuchsia-100 h-[20rem] p-12'>
                 <h2 className='text-fuchsia-900 text-3xl font-extrabold'>
                     I Design <br />
@@ -38,29 +103,54 @@ const Landing = () => {
                 <p className='pb-8'>Colab gigs, web apps <br /> and experimentals.</p>
 
                 <a href="#" >
-                    <div className='flex items-center justify-center border border-fuchsia-900 text-fuchsia-900 w-40 h-10'>
+                    <div className='flex items-center justify-center border border-fuchsia-900 text-fuchsia-900 w-40 h-10 hover:bg-fuchsia-900 hover:text-white transition-all duration-300'>
                         see my work
                         <i className='bx bx-right-arrow-alt'></i>
                     </div>
                 </a>
             </div>
-        </div>
+        </section>
         <section>
             <div className='p-12'>
                 <h3 className='text-fuchsia-900 text-3xl font-extrabold mb-7'>Send me a message</h3>
                 <p>Got a question, a gig, or just want to say hi? Contact me.</p>
 
-                <form action="contactMe" className='m-2 mt-10 flex flex-col gap-4'> 
+                <form onSubmit={handleSubmit} className='m-2 mt-10 flex flex-col gap-4'> 
                     <label htmlFor="name">Your Name</label>
-                    <input className='border-b border-gray-500 focus:outline-none focus:ring-0 text-fuchsia-900' type="text" placeholder='Enter your name'/>
+                    <input 
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        className='border-b border-gray-500 focus:outline-none focus:ring-0 text-fuchsia-900' 
+                        type="text" 
+                        placeholder='Enter your name'
+                        required
+                    />
 
                     <label htmlFor="email">Email-address</label>
-                    <input className='border-b border-gray-500 focus:outline-none focus:ring-0 text-fuchsia-900' type="email" placeholder='Enter your email address' />
+                    <input 
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className='border-b border-gray-500 focus:outline-none focus:ring-0 text-fuchsia-900' 
+                        type="email" 
+                        placeholder='Enter your email address'
+                        required
+                    />
+                    {emailError && <span className='text-red-500 text-sm'>{emailError}</span>}
 
                     <label htmlFor="message">Your message</label>
-                    <textarea className='border-b border-gray-500 focus:outline-none focus:ring-0 text-fuchsia-900' rows='3' type="text" placeholder='Hi E-Dave, I think you can work with me at my company to build and bring our ideas to life. How soon can you hop on to discuss this? ' />
+                    <textarea 
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        className='border-b border-gray-500 focus:outline-none focus:ring-0 text-fuchsia-900' 
+                        rows='3' 
+                        placeholder='Hi E-Dave, I think you can work with me at my company to build and bring our ideas to life. How soon can you hop on to discuss this?'
+                        required
+                    />
 
-                    <button className='mt-10 flex items-center gap-3 justify-center border border-fuchsia-900 text-fuchsia-900 w-40 h-10 cursor-pointer'>
+                    <button className='mt-10 flex items-center gap-3 justify-center border border-fuchsia-900 text-fuchsia-900 w-40 h-10 cursor-pointer hover:bg-fuchsia-900 hover:text-white transition-all duration-300'>
                         shoot
                         <i className='bx bx-right-arrow-alt'></i>
                     </button>

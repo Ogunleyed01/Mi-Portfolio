@@ -3,3 +3,50 @@
 * { 
   font-family: "prompt", sans-serif;
 }
+
+.edave-border {
+  border: 3px solid #86198f;
+  position: relative;
+  overflow: visible;
+}
+
+.edave-border::before {
+  content: 'E-DAVE E-DAVE E-DAVE E-DAVE E-DAVE E-DAVE E-DAVE E-DAVE ';
+  position: absolute;
+  top: -14px;
+  left: 10px;
+  right: 10px;
+  font-size: 11px;
+  color: #86198f;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  z-index: 2;
+  background: #fef3c7;
+}
+
+.edave-border::after {
+  content: 'E-DAVE E-DAVE E-DAVE E-DAVE E-DAVE E-DAVE E-DAVE E-DAVE ';
+  position: absolute;
+  bottom: -14px;
+  left: 10px;
+  right: 10px;
+  font-size: 11px;
+  color: #86198f;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  z-index: 2;
+  background: #fef3c7;
+}
+
+.vertical-text {
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
+  transform: scale(-1, -1);
+}
+
+.vertical-text-reverse {
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
+}
