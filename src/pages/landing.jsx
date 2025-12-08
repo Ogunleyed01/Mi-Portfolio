@@ -36,34 +36,34 @@ const Landing = () => {
 
   return (
     <div>
-        <section className='bg-indigo-900 bg-no-repeat bg-cover bg-center min-h-[50vh] py-8 md:py-0 md:min-h-[60vh] relative overflow-hidden' style={{backgroundImage: `url(${abstractbg1})`}}>
+        <section className='bg-indigo-900 bg-no-repeat bg-cover bg-center h-[50vh] relative' style={{backgroundImage: `url(${abstractbg1})`}}>
             <div className='absolute inset-0 bg-indigo-800/60'></div>
             <div className='relative z-20'>
                 <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
             </div>
-            <div className='p-6 md:p-11 relative z-10 min-h-[40vh] flex flex-col justify-center'>
-                <h2 className='text-amber-200 text-2xl md:text-4xl font-extrabold animate-fade-in-up'>
+            <div className='p-11 relative z-10'>
+                <h2 className='text-amber-200 text-4xl font-extrabold animate-fade-in-up'>
                     Frontend 
                     <br />Developer.
                 </h2>
                 {/* <div className='w-2 h-2 bg-white rounded'></div> */}
-                <p className='text-white mt-4 md:mt-6 text-sm md:text-base animate-fade-in-up animation-delay-200'>
+                <p className='text-white mt-6 animate-fade-in-up animation-delay-200'>
                     I enjoy crafting solid and scalable frontend products with great user experiences.
                 </p>
-                <p className='text-xs md:text-sm text-amber-200 mt-2 animate-fade-in-up animation-delay-400'>
+                <p className='text-sm text-amber-200 mt-2 animate-fade-in-up animation-delay-400'>
                     Beyond coding, I bring UI/UX design principles and graphic design skills to craft interfaces that are not only functional but also aesthetically appealing
                 </p>
             </div>
         </section>
         <section 
-            className='min-h-[50vh] py-8 md:py-0 md:min-h-[60vh] bg-stone-100 bg-cover bg-center flex items-center justify-center relative overflow-hidden'
+            className='h-[50vh] bg-stone-100 bg-cover bg-center flex items-center justify-center relative'
             style={{backgroundImage: `url(${abstractbg2})`}}
         >
             <div className='absolute inset-0 bg-stone-50/80'></div>
             <div 
                 id="headshot-section"
                 data-animate
-                className={`relative z-10 rounded-2xl p-2 md:p-3 edave-border flex transition-all duration-1000 my-8 ${
+                className={`relative z-10 rounded-2xl p-3 edave-border flex transition-all duration-1000 ${
                     visibleSections.has('headshot-section') 
                         ? 'opacity-100 translate-y-0 scale-100' 
                         : 'opacity-0 translate-y-10 scale-95'
@@ -75,7 +75,7 @@ const Landing = () => {
                 <img 
                     src={headshot} 
                     alt="edave" 
-                    className='w-full max-w-[200px] md:max-w-none md:w-55 rounded-xl mx-auto transition-transform duration-300 hover:scale-105'
+                    className='w-55 rounded-xl mx-auto transition-transform duration-300 hover:scale-105'
                 />
                 {/* <div className='absolute right-2 top-0 bottom-0 flex items-center'>
                     <div className='vertical-text-reverse text-fuchsia-900 font-medium text-xs'>E-DAVE E-DAVE E-DAVE E-DAVE</div>
@@ -85,35 +85,35 @@ const Landing = () => {
         <section 
             id="skills-section"
             data-animate
-            className={`flex flex-col justify-center min-h-[50vh] py-12 md:py-16 bg-gray-100 p-6 md:p-12 transition-all duration-1000 ${
+            className={`flex flex-col justify-center h-[66vh] bg-gray-100 p-12 pb-16 transition-all duration-1000 ${
                 visibleSections.has('skills-section') 
                     ? 'opacity-100 translate-y-0' 
                     : 'opacity-0 translate-y-10'
             }`}
         >
-            <h2 className='text-slate-700 text-2xl md:text-4xl font-extrabold mb-2'>Design</h2>
-            <p className='text-sm md:text-base'>I don't just move pixels - I shape experiences. Most times, I'm in the code, experimenting with layouts, refining aesthetics, and balancing form with function. My aim? Seamless user journeys wrapped in modern, thoughtful design.</p>
-            <h2 className='text-slate-700 text-2xl md:text-4xl font-extrabold mt-8 md:mt-10 mb-2'>Engineering</h2>
-            <p className='text-sm md:text-base'>When it comes to building javaScript applications, I bring the right tools - and the right mindset. Whether working with frameworks or from scratch, I build performant, scalable solutions that hold up under real-world demands. Speed and stability are my north stars.</p>
+            <h2 className='text-slate-700 text-4xl font-extrabold mb-2'>Design</h2>
+            <p>I don't just move pixels - I shape experiences. Most times, I'm in the code, experimenting with layouts, refining aesthetics, and balancing form with function. My aim? Seamless user journeys wrapped in modern, thoughtful design.</p>
+            <h2 className='text-slate-700 text-4xl font-extrabold mt-10 mb-2'>Engineering</h2>
+            <p>When it comes to building javaScript applications, I bring the right tools - and the right mindset. Whether working with frameworks or from scratch, I build performant, scalable solutions that hold up under real-world demands. Speed and stability are my north stars.</p>
         </section>
         <section 
             id="work-section"
             data-animate
-            className={`bg-indigo-900 min-h-[40vh] py-8 md:py-12 p-5 md:p-5 transition-all duration-1000 ${
+            className={`bg-indigo-900 h-[46vh] p-5 pt-12 pb-16 transition-all duration-1000 ${
                 visibleSections.has('work-section') 
                     ? 'opacity-100 translate-y-0' 
                     : 'opacity-0 translate-y-10'
             }`}
         >
-            <div className='bg-indigo-50 min-h-[300px] md:min-h-[20rem] p-6 md:p-12'>
-                <h2 className='text-slate-700 text-2xl md:text-3xl font-extrabold'>
+            <div className='bg-indigo-50 h-[20rem] p-12'>
+                <h2 className='text-slate-700 text-3xl font-extrabold'>
                     I Design <br />
                     & build 
                 </h2>
-                <p className='pb-6 md:pb-8 text-sm md:text-base mt-2'>Colab gigs, web apps <br /> and experimentals.</p>
+                <p className='pb-8'>Colab gigs, web apps <br /> and experimentals.</p>
 
                 <a href="#" >
-                    <div className='flex items-center justify-center border border-indigo-800 text-indigo-800 w-full md:w-40 h-10 hover:bg-indigo-800 hover:text-white hover:scale-105 transition-all duration-300 transform text-sm md:text-base'>
+                    <div className='flex items-center justify-center border border-indigo-800 text-indigo-800 w-40 h-10 hover:bg-indigo-800 hover:text-white hover:scale-105 transition-all duration-300 transform'>
                         see my work
                         <i className='bx bx-right-arrow-alt transition-transform duration-300 group-hover:translate-x-1'></i>
                     </div>
@@ -123,47 +123,47 @@ const Landing = () => {
         <section 
             id="contact-section"
             data-animate
-            className={`py-8 md:pb-16 transition-all duration-1000 ${
+            className={`pb-16 transition-all duration-1000 ${
                 visibleSections.has('contact-section') 
                     ? 'opacity-100 translate-y-0' 
                     : 'opacity-0 translate-y-10'
             }`}
         >
-            <div className='p-6 md:p-12'>
-                <h3 className='text-slate-700 text-2xl md:text-3xl font-extrabold mb-4 md:mb-7'>Send me a message</h3>
-                <p className='text-sm md:text-base'>Got a question, a gig, or just want to say hi? Contact me.</p>
+            <div className='p-12'>
+                <h3 className='text-slate-700 text-3xl font-extrabold mb-7'>Send me a message</h3>
+                <p>Got a question, a gig, or just want to say hi? Contact me.</p>
 
               
 
-                <form className='m-2 mt-6 md:mt-10 flex flex-col gap-4'> 
-                    <label htmlFor="name" className='text-sm md:text-base transition-all duration-300'>Your Name</label>
+                <form className='m-2 mt-10 flex flex-col gap-4'> 
+                    <label htmlFor="name" className='transition-all duration-300'>Your Name</label>
                     <input 
                         name="name"
-                        className='border-b border-gray-500 focus:outline-none focus:ring-0 focus:border-indigo-800 text-slate-800 text-sm md:text-base transition-all duration-300 py-2' 
+                        className='border-b border-gray-500 focus:outline-none focus:ring-0 focus:border-indigo-800 text-slate-800 transition-all duration-300' 
                         type="text" 
                         placeholder='Enter your name'
                         required
                     />
 
-                    <label htmlFor="email" className='text-sm md:text-base transition-all duration-300'>Email-address</label>
+                    <label htmlFor="email" className='transition-all duration-300'>Email-address</label>
                     <input 
                         name="email"
-                        className='border-b border-gray-500 focus:outline-none focus:ring-0 focus:border-indigo-800 text-slate-800 text-sm md:text-base transition-all duration-300 py-2' 
+                        className='border-b border-gray-500 focus:outline-none focus:ring-0 focus:border-indigo-800 text-slate-800 transition-all duration-300' 
                         type="email" 
                         placeholder='Enter your email address'
                         required
                     />
 
-                    <label htmlFor="message" className='text-sm md:text-base transition-all duration-300'>Your message</label>
+                    <label htmlFor="message" className='transition-all duration-300'>Your message</label>
                     <textarea 
                         name="message"
-                        className='border-b border-gray-500 focus:outline-none focus:ring-0 focus:border-indigo-800 text-slate-800 text-sm md:text-base transition-all duration-300 py-2 resize-none' 
+                        className='border-b border-gray-500 focus:outline-none focus:ring-0 focus:border-indigo-800 text-slate-800 transition-all duration-300' 
                         rows='3' 
                         placeholder='Hi E-Dave, I think you can work with me at my company to build and bring our ideas to life. How soon can you hop on to discuss this?'
                         required
                     />
 
-                    <button className='mt-6 md:mt-10 flex items-center gap-3 justify-center border border-indigo-800 text-indigo-800 w-full md:w-40 h-10 cursor-pointer hover:bg-indigo-800 hover:text-white hover:scale-105 transition-all duration-300 transform text-sm md:text-base'>
+                    <button className='mt-10 flex items-center gap-3 justify-center border border-indigo-800 text-indigo-800 w-40 h-10 cursor-pointer hover:bg-indigo-800 hover:text-white hover:scale-105 transition-all duration-300 transform'>
                         shoot
                         <i className='bx bx-right-arrow-alt transition-transform duration-300 group-hover:translate-x-1'></i>
                     </button>
