@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import Header from '../components/header'
 import Footer from '../components/footer'
 import headshot from '../images/headshot.png'
@@ -36,52 +37,68 @@ const Landing = () => {
 
   return (
     <div>
-        <section className='bg-indigo-900 bg-no-repeat bg-cover bg-center h-[50vh] relative' style={{backgroundImage: `url(${abstractbg1})`}}>
-            <div className='absolute inset-0 bg-indigo-800/60'></div>
-            <div className='relative z-20'>
-                <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
-            </div>
-            <div className='p-11 relative z-10'>
-                <h2 className='text-amber-200 text-4xl font-extrabold animate-fade-in-up'>
-                    Frontend 
-                    <br />Developer.
-                </h2>
-                {/* <div className='w-2 h-2 bg-white rounded'></div> */}
-                <p className='text-white mt-6 animate-fade-in-up animation-delay-200'>
-                    I enjoy crafting solid and scalable frontend products with great user experiences.
-                </p>
-                <p className='text-sm text-amber-200 mt-2 animate-fade-in-up animation-delay-400'>
-                    Beyond coding, I bring UI/UX design principles and graphic design skills to craft interfaces that are not only functional but also aesthetically appealing
-                </p>
-            </div>
-        </section>
-        <section 
-            className='h-[50vh] bg-stone-100 bg-cover bg-center flex items-center justify-center relative'
-            style={{backgroundImage: `url(${abstractbg2})`}}
-        >
-            <div className='absolute inset-0 bg-stone-50/80'></div>
-            <div 
-                id="headshot-section"
-                data-animate
-                className={`relative z-10 rounded-2xl p-3 edave-border flex transition-all duration-1000 ${
-                    visibleSections.has('headshot-section') 
-                        ? 'opacity-100 translate-y-0 scale-100' 
-                        : 'opacity-0 translate-y-10 scale-95'
-                }`}
+        {/* Combined Hero and Headshot Section - Row on tablet/desktop */}
+        <div className='flex flex-col md:flex-row min-h-[50vh] md:min-h-[70vh] lg:min-h-[80vh]'>
+            {/* Hero Section */}
+            <section className='bg-indigo-900 bg-no-repeat bg-cover bg-center flex-1 md:flex-[2] relative overflow-hidden' style={{backgroundImage: `url(${abstractbg1})`}}>
+                <div className='absolute inset-0 bg-indigo-800/70 md:bg-indigo-800/60'></div>
+                
+                {/* Header - Full header on mobile, only logo on tablet/desktop */}
+                <div className='relative z-20'>
+                    <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+                </div>
+                
+                {/* Hero Content */}
+                <div className='relative z-10 h-full  px-6 md:px-12 lg:px-16 py-12 md:py-16 lg:py-20'>
+                    <div className='max-w-2xl md:flex md:flex-col md:justify-center md:px-16'>
+                        <h2 className='text-amber-200 text-4xl md:text-6xl lg:text-7xl font-extrabold animate-fade-in-up leading-tight mb-4 md:mb-6'>
+                            Frontend 
+                            <br />Developer.
+                        </h2>
+                        <p className='text-white mt-4 md:mt-6 text-base md:text-xl lg:text-2xl leading-relaxed animate-fade-in-up animation-delay-200 max-w-xl'>
+                            I enjoy crafting solid and scalable frontend products with great user experiences.
+                        </p>
+                        <p className='text-sm md:text-lg lg:text-xl text-amber-200/90 mt-4 md:mt-6 animate-fade-in-up animation-delay-400 max-w-xl leading-relaxed'>
+                            Beyond coding, I bring UI/UX design principles and graphic design skills to craft interfaces that are not only functional but also aesthetically appealing
+                        </p>
+                    </div>
+                </div>
+            </section>
+            
+            {/* Headshot Section */}
+            <section 
+                className='h-[50vh] md:h-auto bg-stone-100 bg-cover bg-center flex items-center justify-center relative md:w-2/5 lg:w-1/3'
+                style={{backgroundImage: `url(${abstractbg2})`}}
             >
-                {/* <div className='absolute left-2 top-0 bottom-0 flex items-center'>
-                    <div className='vertical-text text-fuchsia-900 font-medium text-xs'>E-DAVE E-DAVE E-DAVE E-DAVE</div>
-                </div> */}
-                <img 
-                    src={headshot} 
-                    alt="edave" 
-                    className='w-55 rounded-xl mx-auto transition-transform duration-300 hover:scale-105'
-                />
-                {/* <div className='absolute right-2 top-0 bottom-0 flex items-center'>
-                    <div className='vertical-text-reverse text-fuchsia-900 font-medium text-xs'>E-DAVE E-DAVE E-DAVE E-DAVE</div>
-                </div> */}
-            </div>
-        </section>
+                <div className='absolute inset-0 bg-stone-50/80'></div>
+                
+                {/* Hamburger Menu in Headshot Section - Only on tablet/desktop */}
+                <div className='hidden md:block absolute top-6 md:top-8 right-6 md:right-8 z-30'>
+                    <i 
+                        className={`bx ${isMenuOpen ? 'bx-x' : 'bx-menu-alt-right'} text-3xl md:text-4xl lg:text-5xl cursor-pointer transition-all duration-300 ${isMenuOpen ? 'text-indigo-800' : 'text-slate-700'}`}
+                        onClick={isMenuOpen ? () => setIsMenuOpen(false) : () => setIsMenuOpen(true)}
+                    ></i>
+                </div>
+                
+                <div 
+                    id="headshot-section"
+                    data-animate
+                    className={`relative z-10 rounded-2xl p-2 md:p-4 lg:p-5 edave-border flex transition-all duration-1000 ${
+                        visibleSections.has('headshot-section') 
+                            ? 'opacity-100 translate-y-0 scale-100' 
+                            : 'opacity-0 translate-y-10 scale-95'
+                    }`}
+                >
+                    <img 
+                        src={headshot} 
+                        alt="edave" 
+                        className='w-55 md:w-72 lg:w-80 rounded-xl mx-auto transition-transform duration-300 hover:scale-105'
+                        loading="lazy"
+                        decoding="async"
+                    />
+                </div>
+            </section>
+        </div>
         <section 
             id="skills-section"
             data-animate
@@ -91,35 +108,63 @@ const Landing = () => {
                     : 'opacity-0 translate-y-10'
             }`}
         >
-            <h2 className='text-slate-700 text-4xl font-extrabold mb-2'>Design</h2>
-            <p>I don't just move pixels - I shape experiences. Most times, I'm in the code, experimenting with layouts, refining aesthetics, and balancing form with function. My aim? Seamless user journeys wrapped in modern, thoughtful design.</p>
-            <h2 className='text-slate-700 text-4xl font-extrabold mt-10 mb-2'>Engineering</h2>
-            <p>When it comes to building javaScript applications, I bring the right tools - and the right mindset. Whether working with frameworks or from scratch, I build performant, scalable solutions that hold up under real-world demands. Speed and stability are my north stars.</p>
-        </section>
-        <section 
-            id="work-section"
-            data-animate
-            className={`bg-indigo-900 h-[46vh] p-5 pt-12 pb-16 transition-all duration-1000 ${
-                visibleSections.has('work-section') 
-                    ? 'opacity-100 translate-y-0' 
-                    : 'opacity-0 translate-y-10'
-            }`}
-        >
-            <div className='bg-indigo-50 h-[20rem] p-12'>
-                <h2 className='text-slate-700 text-3xl font-extrabold'>
-                    I Design <br />
-                    & build 
-                </h2>
-                <p className='pb-8'>Colab gigs, web apps <br /> and experimentals.</p>
-
-                <a href="#" >
-                    <div className='flex items-center justify-center border border-indigo-800 text-indigo-800 w-40 h-10 hover:bg-indigo-800 hover:text-white hover:scale-105 transition-all duration-300 transform'>
-                        see my work
-                        <i className='bx bx-right-arrow-alt transition-transform duration-300 group-hover:translate-x-1'></i>
-                    </div>
-                </a>
+            <div className='max-w-4xl mx-auto w-full text-lg md:w-auto'>
+                <h2 className='text-slate-800 text-4xl font-extrabold mb-2'>Design</h2>
+                <p>I don't just move pixels - I shape experiences. Most times, I'm in the code, experimenting with layouts, refining aesthetics, and balancing form with function. My aim? Seamless user journeys wrapped in modern, thoughtful design.</p>
+                <h2 className='text-slate-800 text-4xl font-extrabold mt-10 mb-2'>Engineering</h2>
+                <p>When it comes to building javaScript applications, I bring the right tools - and the right mindset. Whether working with frameworks or from scratch, I build performant, scalable solutions that hold up under real-world demands. Speed and stability are my north stars.</p>
             </div>
         </section>
+        <div className='flex flex-col md:flex-row md:gap-1'>
+            <section 
+                id="work-section"
+                data-animate
+                className={`bg-indigo-900 h-[46vh] md:h-[46vh] p-5 pt-12 pb-16 flex items-center justify-center flex-1 transition-all duration-1000 ${
+                    visibleSections.has('work-section') 
+                        ? 'opacity-100 translate-y-0' 
+                        : 'opacity-0 translate-y-10'
+                }`}
+            >
+                <div className='bg-indigo-50 h-80 p-12'>
+                    <h2 className='text-slate-800 text-3xl font-extrabold'>
+                        I Design <br />
+                        & build 
+                    </h2>
+                    <p className='pb-8'>Colab gigs, web apps <br /> and experimentals.</p>
+
+                    <Link to="/work">
+                        <div className='flex items-center justify-center border border-indigo-800 text-indigo-800 w-40 h-10 hover:bg-indigo-800 hover:text-white transition-all duration-300'>
+                            see my work
+                            <i className='bx bx-right-arrow-alt transition-transform duration-300 group-hover:translate-x-1'></i>
+                        </div>
+                    </Link>
+                </div>
+            </section>
+            <section 
+                id="resume-section"
+                data-animate
+                className={`bg-indigo-900 h-[46vh] md:h-[46vh] p-5 pt-12 pb-16 flex items-center justify-center flex-1 transition-all duration-1000 ${
+                    visibleSections.has('resume-section') 
+                        ? 'opacity-100 translate-y-0' 
+                        : 'opacity-0 translate-y-10'
+                }`}
+            >
+                <div className='bg-indigo-50 h-80 p-12'>
+                    <h2 className='text-slate-800 text-3xl font-extrabold'>
+                        My Skills <br />
+                        & Experience 
+                    </h2>
+                    <p className='pb-8'>Frontend development, <br /> UI/UX design & more.</p>
+
+                    <a href="/CV-E-Dave-Frontend.pdf" download="CV-E-Dave-Frontend.pdf">
+                        <div className='flex items-center justify-center border border-indigo-800 text-indigo-800 w-40 h-10 hover:bg-indigo-800 hover:text-white transition-all duration-300'>
+                            view resume
+                            <i className='bx bx-right-arrow-alt transition-transform duration-300 group-hover:translate-x-1'></i>
+                        </div>
+                    </a>
+                </div>
+            </section>
+        </div>
         <section 
             id="contact-section"
             data-animate
@@ -129,11 +174,9 @@ const Landing = () => {
                     : 'opacity-0 translate-y-10'
             }`}
         >
-            <div className='p-12'>
-                <h3 className='text-slate-700 text-3xl font-extrabold mb-7'>Send me a message</h3>
+            <div className='p-12 md:max-w-2xl md:mx-auto'>
+                <h3 className='text-slate-800 text-3xl font-extrabold mb-7'>Send me a message</h3>
                 <p>Got a question, a gig, or just want to say hi? Contact me.</p>
-
-              
 
                 <form className='m-2 mt-10 flex flex-col gap-4'> 
                     <label htmlFor="name" className='transition-all duration-300'>Your Name</label>
@@ -163,7 +206,7 @@ const Landing = () => {
                         required
                     />
 
-                    <button className='mt-10 flex items-center gap-3 justify-center border border-indigo-800 text-indigo-800 w-40 h-10 cursor-pointer hover:bg-indigo-800 hover:text-white hover:scale-105 transition-all duration-300 transform'>
+                    <button className='mt-10 flex items-center gap-3 justify-center border border-indigo-800 text-indigo-800 w-40 h-10 cursor-pointer hover:bg-indigo-800 hover:text-white transition-all duration-300'>
                         shoot
                         <i className='bx bx-right-arrow-alt transition-transform duration-300 group-hover:translate-x-1'></i>
                     </button>

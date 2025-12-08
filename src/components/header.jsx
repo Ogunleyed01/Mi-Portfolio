@@ -1,29 +1,47 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 
-const Header = ({ isMenuOpen, setIsMenuOpen }) => {
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
-
+const Header = ({ isMenuOpen, setIsMenuOpen, showHeader = true }) => {
+  const location = useLocation()
+  const isWorkPage = location.pathname === '/work'
+  
   const closeMenu = () => {
     setIsMenuOpen(false)
   }
 
+  // Disable body scroll on mobile when menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      // Disable scroll on mobile
+      const originalStyle = window.getComputedStyle(document.body).overflow
+      document.body.style.overflow = 'hidden'
+      
+      return () => {
+        document.body.style.overflow = originalStyle
+      }
+    }
+  }, [isMenuOpen])
+
   return (
     <>
-      <div className='flex justify-between p-8 text-amber-200 relative'>
-          <div className='text-2xl text-bold'>E-Dave</div>
-          <i 
-            className={`bx ${isMenuOpen ? 'bx-x' : 'bx-menu-alt-right'} text-3xl cursor-pointer transition-all duration-300 relative z-[60] ${isMenuOpen ? 'text-indigo-800' : 'text-amber-200'}`}
-            onClick={isMenuOpen ? closeMenu : toggleMenu}
-          ></i>
-      </div>
+      {showHeader && (
+        <div className='flex justify-between md:justify-start p-6 md:p-8 lg:p-10 text-amber-200 relative z-[70]'>
+            <a href="http://localhost:5173/">
+              <div className='text-2xl md:text-3xl lg:text-4xl font-bold'>E-Dave</div>
+            </a>
+            {/* Hamburger Menu - Only visible on mobile */}
+            <i 
+              className={`md:hidden bx ${isMenuOpen ? 'bx-x' : 'bx-menu-alt-right'} text-3xl cursor-pointer transition-all duration-300 relative z-[70] ${isMenuOpen ? 'text-indigo-800' : 'text-amber-200'}`}
+              onClick={isMenuOpen ? closeMenu : () => setIsMenuOpen(true)}
+            ></i>
+        </div>
+      )}
       
       {isMenuOpen && (
         <>
-          {/* Overlay - only on tablet/desktop */}
+          {/* Overlay - visible on all screens */}
           <div 
-            className='hidden md:block fixed inset-0 bg-black/20 z-40'
+            className='fixed inset-0 bg-black/40 md:bg-black/20 z-40'
             onClick={closeMenu}
           ></div>
           
@@ -39,15 +57,26 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
 
               {/* Navigation Links */}
               <div className='flex flex-col gap-6 mb-16'>
+                {isWorkPage ? (
+                  <Link 
+                    to='/' 
+                    onClick={closeMenu} 
+                    className='text-indigo-800 text-xl hover:text-indigo-600 transition-colors'
+                  >
+                    Home
+                  </Link>
+                ) : (
+                  <Link 
+                    to='/work' 
+                    onClick={closeMenu} 
+                    className='text-indigo-800 text-xl hover:text-indigo-600 transition-colors'
+                  >
+                    My Work
+                  </Link>
+                )}
                 <a 
-                  href='#work' 
-                  onClick={closeMenu} 
-                  className='text-indigo-800 text-xl hover:text-indigo-600 transition-colors'
-                >
-                  My Work
-                </a>
-                <a 
-                  href='#resume' 
+                  href="/CV-E-Dave-Frontend.pdf" 
+                  download="CV-E-Dave-Frontend.pdf"
                   onClick={closeMenu} 
                   className='text-indigo-800 text-xl hover:text-indigo-600 transition-colors'
                 >
