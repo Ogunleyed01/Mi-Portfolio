@@ -9,6 +9,11 @@ import abstractbg2 from '../images/abstract2.jpg'
 const Landing = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [visibleSections, setVisibleSections] = useState(new Set())
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  })
 
   // Intersection Observer for scroll animations
   useEffect(() => {
@@ -32,6 +37,46 @@ const Landing = () => {
       sections.forEach((section) => observer.unobserve(section))
     }
   }, [])
+
+  // Handle form input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
+  // Handle form submission to WhatsApp
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    
+    // Format the message for WhatsApp
+    const messageText = `Hello E-Dave!
+
+*Name:* ${formData.name}
+*Email:* ${formData.email}
+
+*Message:*
+${formData.message}`
+    
+    // Encode the message for URL
+    const encodedMessage = encodeURIComponent(messageText)
+    
+    // WhatsApp Web API URL (removing + from phone number)
+    const phoneNumber = '2348059494191'
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`
+    
+    // Open WhatsApp in a new tab
+    window.open(whatsappUrl, '_blank')
+    
+    // Clear form after submission
+    setFormData({
+      name: '',
+      email: '',
+      message: ''
+    })
+  }
 
 
 
@@ -102,7 +147,7 @@ const Landing = () => {
         <section 
             id="skills-section"
             data-animate
-            className={`flex flex-col justify-center h-[66vh] bg-gray-100 p-12 pb-16 transition-all duration-1000 ${
+            className={`flex flex-col justify-center min-h-[85vh] md:h-[66vh] bg-gray-100 p-8 md:p-12 pb-12 md:pb-16 transition-all duration-1000 ${
                 visibleSections.has('skills-section') 
                     ? 'opacity-100 translate-y-0' 
                     : 'opacity-0 translate-y-10'
@@ -178,10 +223,12 @@ const Landing = () => {
                 <h3 className='text-slate-800 text-3xl font-extrabold mb-7'>Send me a message</h3>
                 <p>Got a question, a gig, or just want to say hi? Contact me.</p>
 
-                <form className='m-2 mt-10 flex flex-col gap-4'> 
+                <form onSubmit={handleSubmit} className='m-2 mt-10 flex flex-col gap-4'> 
                     <label htmlFor="name" className='transition-all duration-300'>Your Name</label>
                     <input 
                         name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
                         className='border-b border-gray-500 focus:outline-none focus:ring-0 focus:border-indigo-800 text-slate-800 transition-all duration-300' 
                         type="text" 
                         placeholder='Enter your name'
@@ -191,6 +238,8 @@ const Landing = () => {
                     <label htmlFor="email" className='transition-all duration-300'>Email-address</label>
                     <input 
                         name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
                         className='border-b border-gray-500 focus:outline-none focus:ring-0 focus:border-indigo-800 text-slate-800 transition-all duration-300' 
                         type="email" 
                         placeholder='Enter your email address'
@@ -200,13 +249,15 @@ const Landing = () => {
                     <label htmlFor="message" className='transition-all duration-300'>Your message</label>
                     <textarea 
                         name="message"
+                        value={formData.message}
+                        onChange={handleInputChange}
                         className='border-b border-gray-500 focus:outline-none focus:ring-0 focus:border-indigo-800 text-slate-800 transition-all duration-300' 
                         rows='3' 
                         placeholder='Hi E-Dave, I think you can work with me at my company to build and bring our ideas to life. How soon can you hop on to discuss this?'
                         required
                     />
 
-                    <button className='mt-10 flex items-center gap-3 justify-center border border-indigo-800 text-indigo-800 w-40 h-10 cursor-pointer hover:bg-indigo-800 hover:text-white transition-all duration-300'>
+                    <button type="submit" className='mt-10 flex items-center gap-3 justify-center border border-indigo-800 text-indigo-800 w-40 h-10 cursor-pointer hover:bg-indigo-800 hover:text-white transition-all duration-300'>
                         shoot
                         <i className='bx bx-right-arrow-alt transition-transform duration-300 group-hover:translate-x-1'></i>
                     </button>

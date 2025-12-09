@@ -1,13 +1,26 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 const Header = ({ isMenuOpen, setIsMenuOpen, showHeader = true }) => {
   const location = useLocation()
   const isWorkPage = location.pathname === '/work'
+  const [isMobile, setIsMobile] = useState(false)
   
   const closeMenu = () => {
     setIsMenuOpen(false)
   }
+
+  // Check if screen is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   // Disable body scroll on mobile when menu is open
   useEffect(() => {
@@ -25,15 +38,17 @@ const Header = ({ isMenuOpen, setIsMenuOpen, showHeader = true }) => {
   return (
     <>
       {showHeader && (
-        <div className='flex justify-between md:justify-start p-6 md:p-8 lg:p-10 text-amber-200 relative z-[70]'>
+        <div className={`flex ${isMobile ? 'justify-between' : 'justify-start'} p-6 md:p-8 lg:p-10 text-amber-200 relative z-[70]`}>
             <a href="http://localhost:5173/">
-              <div className='text-2xl md:text-3xl lg:text-4xl font-bold'>E-Dave</div>
+              <div className={`text-2xl md:text-3xl lg:text-4xl font-bold ${isMenuOpen ? 'hidden md:block' : ''}`}>E-Dave</div>
             </a>
-            {/* Hamburger Menu - Only visible on mobile */}
-            <i 
-              className={`md:hidden bx ${isMenuOpen ? 'bx-x' : 'bx-menu-alt-right'} text-3xl cursor-pointer transition-all duration-300 relative z-[70] ${isMenuOpen ? 'text-indigo-800' : 'text-amber-200'}`}
-              onClick={isMenuOpen ? closeMenu : () => setIsMenuOpen(true)}
-            ></i>
+            {/* Hamburger Menu - Only rendered on mobile */}
+            {isMobile && (
+              <i 
+                className={`bx ${isMenuOpen ? 'bx-x' : 'bx-menu-alt-right'} text-3xl cursor-pointer transition-all duration-300 relative z-[70] ${isMenuOpen ? 'text-indigo-800' : 'text-amber-200'}`}
+                onClick={isMenuOpen ? closeMenu : () => setIsMenuOpen(true)}
+              ></i>
+            )}
         </div>
       )}
       
