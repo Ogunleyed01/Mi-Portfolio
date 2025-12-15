@@ -6,6 +6,7 @@ import Footer from '../components/footer'
 const Work = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [tappedCardId, setTappedCardId] = useState(null)
 
   // Check if screen is mobile
   useEffect(() => {
@@ -18,6 +19,28 @@ const Work = () => {
     
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
+
+  // Close tapped card when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (isMobile && tappedCardId && !e.target.closest('.project-card')) {
+        setTappedCardId(null)
+      }
+    }
+
+    if (tappedCardId) {
+      document.addEventListener('click', handleClickOutside)
+      return () => document.removeEventListener('click', handleClickOutside)
+    }
+  }, [tappedCardId, isMobile])
+
+  const handleCardTap = (projectId, e) => {
+    if (isMobile) {
+      e.preventDefault()
+      e.stopPropagation()
+      setTappedCardId(tappedCardId === projectId ? null : projectId)
+    }
+  }
 
   const workProjects = [
     {
@@ -107,42 +130,93 @@ const Work = () => {
 
         {/* Work Cards Grid */}
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto'>
-          {workProjects.map((project) => (
-            <div
-              key={project.id}
-              className='bg-white rounded-lg p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group relative'
-            >
-              {/* Project Image */}
-              <div className='mb-4 overflow-hidden rounded-lg relative'>
-                <img 
-                  src={project.image} 
-                  alt={project.name}
-                  className='w-full h-auto rounded-lg transition-transform duration-300 group-hover:scale-105'
-                  loading="lazy"
-                  decoding="async"
-                />
-                {/* Hover Icons Overlay */}
-                <div className='absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-6 rounded-lg'>
-                  <a
-                    href={`https://${project.url}`}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='w-14 h-14 flex items-center justify-center bg-white rounded-full hover:bg-indigo-800 hover:scale-110 hover:shadow-lg transition-all duration-300 [&:hover_i]:text-white'
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <i className='bx bx-link-external text-2xl text-indigo-800 transition-colors duration-300'></i>
-                  </a>
-                  <a
-                    href={project.github}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='w-14 h-14 flex items-center justify-center bg-white rounded-full hover:bg-indigo-800 hover:scale-110 hover:shadow-lg transition-all duration-300 [&:hover_i]:text-white'
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <i className='bx bxl-github text-2xl text-indigo-800 transition-colors duration-300'></i>
-                  </a>
+          {workProjects.map((project) => {
+            const isTapped = tappedCardId === project.id
+            const showOverlay = isMobile ? isTapped : false
+            
+            return (
+              <div
+                key={project.id}
+                className='project-card bg-white rounded-lg p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group relative'
+              >
+                {/* Project Image */}
+                <div 
+                  className='mb-4 overflow-hidden rounded-lg relative'
+                >
+                  {isMobile ? (
+                    <>
+                      {/* Mobile: Image container that triggers tap */}
+                      <div
+                        className='w-full cursor-pointer'
+                        onClick={(e) => handleCardTap(project.id, e)}
+                      >
+                        <img 
+                          src={project.image} 
+                          alt={project.name}
+                          className='w-full h-auto rounded-lg transition-transform duration-300 pointer-events-none'
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </div>
+                      {/* Mobile: Overlay that appears on tap */}
+                      {showOverlay && (
+                        <div 
+                          className='absolute inset-0 bg-black/70 flex items-center justify-center gap-6 rounded-lg z-10'
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <a
+                            href={`https://${project.url}`}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            className='w-14 h-14 flex items-center justify-center bg-white rounded-full hover:bg-indigo-800 hover:scale-110 hover:shadow-lg transition-all duration-300 [&:hover_i]:text-white'
+                            onClick={() => setTappedCardId(null)}
+                          >
+                            <i className='bx bx-link-external text-2xl text-indigo-800 transition-colors duration-300'></i>
+                          </a>
+                          <a
+                            href={project.github}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            className='w-14 h-14 flex items-center justify-center bg-white rounded-full hover:bg-indigo-800 hover:scale-110 hover:shadow-lg transition-all duration-300 [&:hover_i]:text-white'
+                            onClick={() => setTappedCardId(null)}
+                          >
+                            <i className='bx bxl-github text-2xl text-indigo-800 transition-colors duration-300'></i>
+                          </a>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      {/* Desktop/Tablet: Image with hover effect */}
+                      <img 
+                        src={project.image} 
+                        alt={project.name}
+                        className='w-full h-auto rounded-lg transition-transform duration-300 group-hover:scale-105'
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      {/* Desktop/Tablet: Overlay on hover */}
+                      <div className='absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-6 rounded-lg pointer-events-none group-hover:pointer-events-auto'>
+                        <a
+                          href={`https://${project.url}`}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                          className='w-14 h-14 flex items-center justify-center bg-white rounded-full hover:bg-indigo-800 hover:scale-110 hover:shadow-lg transition-all duration-300 [&:hover_i]:text-white pointer-events-auto'
+                        >
+                          <i className='bx bx-link-external text-2xl text-indigo-800 transition-colors duration-300'></i>
+                        </a>
+                        <a
+                          href={project.github}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                          className='w-14 h-14 flex items-center justify-center bg-white rounded-full hover:bg-indigo-800 hover:scale-110 hover:shadow-lg transition-all duration-300 [&:hover_i]:text-white pointer-events-auto'
+                        >
+                          <i className='bx bxl-github text-2xl text-indigo-800 transition-colors duration-300'></i>
+                        </a>
+                      </div>
+                    </>
+                  )}
                 </div>
-              </div>
 
               {/* Project Name */}
               <h3 className='text-slate-800 text-lg md:text-xl font-semibold mb-2'>
@@ -153,8 +227,9 @@ const Work = () => {
               <p className='text-slate-600 text-sm md:text-base'>
                 {project.description}
               </p>
-            </div>
-          ))}
+              </div>
+            )
+          })}
         </div>
       </div>
 
