@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 const Header = ({ isMenuOpen, setIsMenuOpen, showHeader = true }) => {
   const location = useLocation()
   const isWorkPage = location.pathname === '/work'
+  const isResumePage = location.pathname === '/resume'
   const [isMobile, setIsMobile] = useState(false)
   
   const closeMenu = () => {
@@ -72,7 +73,7 @@ const Header = ({ isMenuOpen, setIsMenuOpen, showHeader = true }) => {
 
               {/* Navigation Links */}
               <div className='flex flex-col gap-6 mb-16'>
-                {isWorkPage ? (
+                {isWorkPage || isResumePage ? (
                   <Link 
                     to='/' 
                     onClick={closeMenu} 
@@ -89,14 +90,15 @@ const Header = ({ isMenuOpen, setIsMenuOpen, showHeader = true }) => {
                     My Work
                   </Link>
                 )}
-                <a 
-                  href="/CV-E-Dave-Frontend.pdf" 
-                  download="CV-E-Dave-Frontend.pdf"
-                  onClick={closeMenu} 
-                  className='text-indigo-800 text-xl hover:text-indigo-600 transition-colors'
-                >
-                  My Résumé
-                </a>
+                {!isResumePage && (
+                  <Link 
+                    to='/resume' 
+                    onClick={closeMenu} 
+                    className='text-indigo-800 text-xl hover:text-indigo-600 transition-colors'
+                  >
+                    My Résumé
+                  </Link>
+                )}
               </div>
 
               {/* SAY HELLO Section */}

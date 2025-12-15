@@ -201,12 +201,12 @@ ${formData.message}`
                     </h2>
                     <p className='pb-8'>Frontend development, <br /> UI/UX design & more.</p>
 
-                    <a href="/CV-E-Dave-Frontend.pdf" download="CV-E-Dave-Frontend.pdf">
+                    <Link to="/resume">
                         <div className='flex items-center justify-center border border-indigo-800 text-indigo-800 w-40 h-10 hover:bg-indigo-800 hover:text-white transition-all duration-300'>
                             view resume
                             <i className='bx bx-right-arrow-alt transition-transform duration-300 group-hover:translate-x-1'></i>
                         </div>
-                    </a>
+                    </Link>
                 </div>
             </section>
         </div>
