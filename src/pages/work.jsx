@@ -72,15 +72,6 @@ const Work = () => {
     },
     {
       id: 4,
-      name: 'E-Dave Portfolio',
-      logo: 'E-DAVE',
-      image: '/edave.png',
-      url: 'edave.netlify.app',
-      github: 'https://github.com/Ogunleyed01/Mi-Portfolio',
-      description: 'This portfolio website is a personal showcase of my frontend development work, featuring selected projects, skills, and professional experience. It\'s built with a responsive design, smooth navigation, and reusable components, providing a clear and engaging way for users to explore my work and learn more about me as a developer.'
-    },
-    {
-      id: 5,
       name: 'PL Platform',
       logo: 'PL',
       image: '/pl.png',
